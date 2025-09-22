@@ -4,9 +4,7 @@ describe('Demoblaze contact form', () => {
   const contactFormPage = new ContactFormPage();
 
   beforeEach(() => {
-    contactFormPage.getElement('body').then(() => {
-      cy.visit('https://www.demoblaze.com');
-    });
+    cy.visit('https://www.demoblaze.com');
   });
 
   it('should send a message via contact form', () => {

@@ -1,24 +1,20 @@
-class ContactFormPage {
+import PageObject from '../PageObject';
+
+export default class ContactFormPage extends PageObject {
   openContactForm() {
-    this.getElement('a[data-target="#exampleModal"]').click();
+    cy.get('a[data-target="#exampleModal"]').click();
     return this;
   }
 
   fillForm(email, name, message) {
-    this.getElement('#recipient-email').type(email);
-    this.getElement('#recipient-name').type(name);
-    this.getElement('#message-text').type(message);
+    cy.get('#recipient-email').type(email);
+    cy.get('#recipient-name').type(name);
+    cy.get('#message-text').type(message);
     return this;
   }
 
   submitForm() {
-    this.getElement('button[onclick="send()"]').click();
+    cy.get('.modal-footer').contains('button', 'Send message').click();
     return this;
   }
-
-  getElement(selector) {
-    return cy.get(selector);
-  }
 }
-
-export default ContactFormPage;

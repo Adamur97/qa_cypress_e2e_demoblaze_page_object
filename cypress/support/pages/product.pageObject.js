@@ -1,8 +1,6 @@
-class ProductPage {
+export default class ProductPage {
   clickOnAddToCart() {
-    cy.contains('a', 'Add to cart').click();
+    cy.get('.btn-success').click(); // bardziej stabilny selector
     return this;
   }
 }
-
-export default ProductPage;

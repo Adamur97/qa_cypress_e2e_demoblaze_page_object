@@ -1,9 +1,4 @@
-class CheckoutPage {
-  openCart() {
-    cy.get('#cartur').click();
-    return this;
-  }
-
+export default class CheckoutPage {
   fillOrderForm(name, country, city, creditCard, month, year) {
     cy.get('#name').type(name);
     cy.get('#country').type(country);
@@ -24,5 +19,3 @@ class CheckoutPage {
     return this;
   }
 }
-
-export default CheckoutPage;

@@ -1,6 +1,7 @@
 export default class PageObject {
   visit(url) {
     cy.visit(url);
+    return this;
   }
 
   getElement(selector) {

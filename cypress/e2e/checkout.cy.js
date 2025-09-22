@@ -1,10 +1,10 @@
-import HomePage from '../support/pages/home.pageObject';
-import ProductPage from '../support/pages/product.pageObject';
+import HomePage from '../support/pages/homeCatalogue.pageObject';
+import CartPage from '../support/pages/cart.pageObject';
 import CheckoutPage from '../support/pages/checkout.pageObject';
 
 describe('Demoblaze checkout flow', () => {
   const homePage = new HomePage();
-  const productPage = new ProductPage();
+  const cartPage = new CartPage();
   const checkoutPage = new CheckoutPage();
 
   const orderData = {
@@ -17,25 +17,24 @@ describe('Demoblaze checkout flow', () => {
   };
 
   beforeEach(() => {
-    homePage.visit('https://www.demoblaze.com');
+    cy.visit('https://www.demoblaze.com');
   });
 
   it('should allow user to place an order', () => {
     homePage
       .clickOnCategory('Laptops')
-      .clickOnProduct('Sony vaio i7');
-
-    productPage.clickOnAddToCart();
+      .clickOnProduct('Sony vaio i7')
+      .clickOnAddToCart();
 
     cy.on('window:alert', (txt) => {
-      expect(txt).to.contains('Product added');
+      expect(txt).to.eq('Product added.');
     });
 
-    checkoutPage
-      .openCart();
-
-    // Assert correct product is in the cart
-    cy.get('tr.success td:nth-child(2)').should('contain.text', 'Sony vaio i7');
+    cartPage
+      .openCart()
+      .getProductInCart('Sony vaio i7')
+      .should('be.visible')
+      .placeOrder();
 
     checkoutPage
       .fillOrderForm(
@@ -48,9 +47,10 @@ describe('Demoblaze checkout flow', () => {
       )
       .purchase();
 
-    // Assert confirmation modal contains correct data
-    cy.get('.sweet-alert').should('contain.text', orderData.name);
-    cy.get('.sweet-alert').should('contain.text', orderData.creditCard);
+    // Assertions for purchase modal
+    cy.contains('Thank you for your purchase!').should('be.visible');
+    cy.contains(`Name: ${orderData.name}`).should('be.visible');
+    cy.contains(`Credit Card: ${orderData.creditCard}`).should('be.visible');
 
     checkoutPage.closeModal();
   });
