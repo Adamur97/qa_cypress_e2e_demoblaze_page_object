@@ -1,26 +1,28 @@
-// cypress/support/pages/checkout.pageObject.js
-import PageObject from './PageObject';
-
-export default class CheckoutPage extends PageObject {
+class CheckoutPage {
   openCart() {
-    this.clickElement('#cartur');
+    cy.get('#cartur').click();
+    return this;
   }
 
-  placeOrder() {
-    this.clickElement('button[data-target=\'#orderModal\']');
-  }
-
-  fillOrderForm(name, country, city, card, month, year) {
-    this.typeText('#name', name);
-    this.typeText('#country', country);
-    this.typeText('#city', city);
-    this.typeText('#card', card);
-    this.typeText('#month', month);
-    this.typeText('#year', year);
+  fillOrderForm(name, country, city, creditCard, month, year) {
+    cy.get('#name').type(name);
+    cy.get('#country').type(country);
+    cy.get('#city').type(city);
+    cy.get('#card').type(creditCard);
+    cy.get('#month').type(month);
+    cy.get('#year').type(year);
+    return this;
   }
 
   purchase() {
-    this.clickElement('button[onclick=\'purchaseOrder()\']');
-    cy.contains('Thank you for your purchase!').should('be.visible');
+    cy.contains('button', 'Purchase').click();
+    return this;
+  }
+
+  closeModal() {
+    cy.contains('button', 'OK').click();
+    return this;
   }
 }
+
+export default CheckoutPage;

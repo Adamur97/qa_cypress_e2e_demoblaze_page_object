@@ -1,15 +1,8 @@
-import PageObject from '../PageObject';
-
-class ProductPageObject extends PageObject {
+class ProductPage {
   clickOnAddToCart() {
     cy.contains('a', 'Add to cart').click();
-  }
-
-  assertAlert(message) {
-    cy.on('window:alert', (alertText) => {
-      expect(alertText).to.eq(message);
-    });
+    return this;
   }
 }
 
-export default ProductPageObject;
+export default ProductPage;

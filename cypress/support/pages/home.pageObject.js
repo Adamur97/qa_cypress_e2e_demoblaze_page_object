@@ -1,15 +1,18 @@
-import PageObject from './PageObject';
-
-export default class HomePage extends PageObject {
-  selectProduct(productName) {
-    return this.getElement('.card-title').contains(productName).click();
+class HomePage {
+  visit(url = '/') {
+    cy.visit(url);
+    return this;
   }
 
-  addToCart(productName) {
-    this.selectProduct(productName);
-    this.clickElement('a[onclick^=\'addToCart\']');
-    cy.on('window:alert', (str) => {
-      expect(str).to.equal('Product added.');
-    });
+  clickOnCategory(categoryName) {
+    cy.contains('#itemc', categoryName).click();
+    return this;
+  }
+
+  clickOnProduct(productName) {
+    cy.contains('.hrefch', productName).click();
+    return this;
   }
 }
+
+export default HomePage;
